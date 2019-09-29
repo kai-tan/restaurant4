@@ -1,0 +1,41 @@
+.homepage {
+    color: white;
+    text-align: center;
+    margin: 15px auto;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+li {
+    margin: 0 15px;
+}
+
+a {
+    text-decoration: none;
+    color: pink
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.text {
+    margin-top: 10px;
+    font-size: 18px;
+    a {
+        color: lightcoral;
+        transition: all 1.2s;
+        display: inline-block;
+
+        &:hover {
+            transform: scale(1.2);
+            color: lightcoral;
+            text-decoration: none;
+        }
+    }
+}

@@ -1,0 +1,78 @@
+.checkoutPage {
+    width: 80%;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px auto 0;
+  
+    .checkoutHeader {
+      width: 100%;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid darkgrey;
+  
+      .headerBlock {
+        text-transform: capitalize;
+        width: 23%;
+  
+        &:last-child {
+          width: 8%;
+        }
+      }
+    }
+  
+    .total {
+      margin-top: 30px;
+      margin-left: auto;
+      font-size: 36px;
+    }
+
+    button {
+      margin-left: auto; 
+      margin-top: 50px;
+    }
+
+    .testWarning {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 24px;
+      color: red 
+    }
+  }
+  
+
+.initContainer {
+    align-self: flex-start;
+    margin: 0 auto;
+
+}
+
+
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+    
+    .initContainer {
+        width: 668px;
+        
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .initContainer {
+        width: 892px;
+        
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .initContainer {
+        width: 1100px;
+        
+    }
+}

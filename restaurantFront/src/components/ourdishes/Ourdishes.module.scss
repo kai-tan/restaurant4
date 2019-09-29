@@ -1,0 +1,73 @@
+.ourdishes {
+    align-self: flex-start;
+    margin: 0 auto;
+
+}
+
+.testButton {
+        width: 20%;
+        border: 1px black solid;
+        background-color: transparent;
+        padding: 5px 0px;
+
+    &:focus {
+        background-color: black;
+        color: white;
+    }
+
+    &:hover {
+        color: white; 
+        background: #000;
+    }
+}
+
+.category{
+    display: flex;
+    text-align: center;
+    margin: 20px 0px;
+    padding: 0 15px;
+    .category_item {
+        width: 20%;
+        border: 1px solid #000;
+        padding: 5px 0px;
+        
+        &:focus {
+            background: black;
+            color:white;
+        }
+
+        &:hover {
+            color: white; 
+            background: #000;
+            cursor: pointer;
+        }
+
+    }
+}
+
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+    
+    .ourdishes {
+        width: 668px;
+        
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .ourdishes {
+        width: 892px;
+        
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .ourdishes {
+        width: 1100px;
+        
+    }
+}

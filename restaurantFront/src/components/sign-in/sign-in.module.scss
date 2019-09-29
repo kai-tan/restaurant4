@@ -1,0 +1,43 @@
+.signin {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  
+    .title {
+      margin: 10px 0;
+    }
+  
+  
+  }
+
+  
+
+  @media screen and (min-width: 576px) {
+    .signin {
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      align-items: stretch;
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+      
+      
+  
+  }
+  
+  @media screen and (min-width: 992px) {
+    
+  
+  }
+  
+  @media screen and (min-width: 1200px) {
+      
+
+
+  }
+  

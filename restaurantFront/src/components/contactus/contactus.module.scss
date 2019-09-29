@@ -1,0 +1,30 @@
+.contactUsContainer {
+    align-self: flex-start;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+    
+    .contactUsContainer {
+        width: 668px;
+        
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .contactUsContainer {
+        width: 892px;
+        
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .contactUsContainer {
+        width: 1100px;
+        
+    }
+}

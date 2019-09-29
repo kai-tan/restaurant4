@@ -1,0 +1,50 @@
+.signInAndSignUp {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    margin: 30px auto;  
+}
+  
+.initial {
+
+  align-self: flex-start;
+  margin: 0 auto;
+
+}
+
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+    
+    .initial {
+        width: 668px;
+        
+    }
+
+    
+
+}
+
+@media screen and (min-width: 992px) {
+    .initial {
+        width: 892px;
+        
+    }
+
+    .signInAndSignUp {
+      justify-content: space-around;
+      flex-direction: row;
+      margin: 30px auto;  
+  }
+
+}
+
+@media screen and (min-width: 1200px) {
+    .initial {
+        width: 1100px;
+        
+    }
+}

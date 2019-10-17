@@ -70,7 +70,6 @@ class Ourdishes extends React.Component {
     render() {
         const { selectFoodsForInitFetch, selectIsFetching } = this.props
 
-        console.log(selectFoodsForInitFetch)
         const passingResult = this.state.filteredResult === null ? selectFoodsForInitFetch : this.state.filteredResult
 
         return (

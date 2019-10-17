@@ -7,11 +7,26 @@ import StripeCheckoutButton from '../../components/stripe-button/stripe-button.c
 import Header from '../../components/header/Header.component'
 
 import { selectCartTotal, selectCartItems } from '../../redux/cart/cart.selectors'
+import { selectCurrentUser } from '../../redux/user/user.selectors'
 import styles from './checkout.module.scss'
 
-const checkout = ({ cartItems, total }) => (
+const checkout = ({ cartItems, total, currentUser, history }) => {
     
+
+    const checkUserLogin = () => {
+        console.log(currentUser)
+        if (currentUser) {
+            return null; 
+        } else {
+            alert('Please kindly signin first, in order to puchase. Thank you. ')
+            return history.push('/signin')
+        }
+    }
+
+    return (
+        
     <div className={styles.initContainer}>
+        {checkUserLogin()}
         <Header />
         <div className={styles.checkoutPage}>
             <div className={styles.checkoutHeader}>
@@ -31,7 +46,7 @@ const checkout = ({ cartItems, total }) => (
                     <span>Remove</span>
                 </div>    
             </div>  
-            {
+            { 
                 cartItems.map((cartItem) => {
                 return  <CheckoutItem key={cartItem.id} cartItem={cartItem} />
                 })
@@ -42,11 +57,13 @@ const checkout = ({ cartItems, total }) => (
             <StripeCheckoutButton price={total} />
         </div>
     </div>
-)
+    )
+}
 
 const mapStateToProps = createStructuredSelector({
     cartItems: selectCartItems,
-    total: selectCartTotal
+    total: selectCartTotal,
+    currentUser: selectCurrentUser
 })
 
 export default connect(mapStateToProps)(checkout); 

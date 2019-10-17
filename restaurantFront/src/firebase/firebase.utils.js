@@ -16,6 +16,7 @@ const config = {
 firebase.initializeApp(config);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
+  console.log(userAuth); 
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
@@ -52,18 +53,37 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 //   return await batch.commit()
 // }
 
-export const convertCollectionsSnapshotToMap = (collections) => {
+export const convertCollectionsSnapshotToMapFood = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
-    const { name, description, price, quantity, category, image } = doc.data()
+    const { category, description, image, name, price, quantity } = doc.data()
 
     return {
       id: doc.id,
-      name, 
+      category, 
       description,
-      price, 
-      quantity,
-      category,
-      image
+      image, 
+      name,
+      price,
+      quantity
+    }
+  })
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.id.toLowerCase()] = collection
+    return accumulator;
+  }, {})
+}
+
+export const convertCollectionsSnapshotToMapOrder = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { username, userId, products, createdAt } = doc.data()
+
+    return {
+      id: doc.id,
+      username, 
+      userId,
+      products, 
+      createdAt
     }
   })
 

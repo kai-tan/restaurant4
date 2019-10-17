@@ -1,6 +1,6 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects'
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils'
+import { firestore, convertCollectionsSnapshotToMapFood } from '../../firebase/firebase.utils'
 
 import { fetchFoodsSuccess, fetchFoodsFailure } from './shop.actions'
 
@@ -11,7 +11,7 @@ export function* fetchFoodsAsync() {
 
         const collectionRef = firestore.collection('food'); 
         const snapshot = yield collectionRef.get(); 
-        const foodsMap = yield call(convertCollectionsSnapshotToMap, snapshot)
+        const foodsMap = yield call(convertCollectionsSnapshotToMapFood, snapshot)
         yield put(fetchFoodsSuccess(foodsMap))
     } catch (error) {
         yield put(fetchFoodsFailure(error.message))

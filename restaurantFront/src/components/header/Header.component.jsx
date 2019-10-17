@@ -25,6 +25,13 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
                     <li><NavLink to="/our-dishes" activeClassName="resNavLinkActive">Our Dishes</NavLink></li>
                     <li><NavLink to="/about-us" activeClassName="resNavLinkActive">About Us</NavLink></li>
                     <li><NavLink to="/contact-us" activeClassName="resNavLinkActive">Contact Us</NavLink></li>
+                    {
+                        currentUser ? (
+                            <li><NavLink to="/purchase-history" activeClassName="resNavLinkActive">Purchase History</NavLink></li>
+                        ) : (
+                            null 
+                        )
+                    }
                     {currentUser ? (
                         <li onClick={signOutStart}><NavLink to="/signin" activeClassName="resNavLinkActive">Sign Out</NavLink></li>
                     ) : (

@@ -7,6 +7,7 @@ import { createStructuredSelector } from 'reselect'
 import Homepage from '../src/components/homepage/Homepage.component'
 import Ourdishes from './components/ourdishes/Ourdishes.component'
 import AboutUs from './components/aboutus/aboutus.component'
+import PurchaseHistory from './pages/purchase-history/purchase-history.component'
 import ContactUs from './components/contactus/contactus.component'
 import Checkout from './components/checkout/checkout.component'
 import SignInAndSignUpPage from './pages/signin-signup/signin-signup.component'
@@ -17,21 +18,22 @@ class App extends React.Component {
   
   render() {
       return (
-        <Switch>
-          <div className="app">
-            <Route path="/" exact component={Homepage} />  
-            <Route path="/our-dishes" component={Ourdishes} />  
-            <Route path="/about-us" component={AboutUs} />  
-            <Route path="/contact-us" component={ContactUs} />  
-            <Route path='/checkout' component={Checkout} />
-            <Route path='/signin' exact render={() => 
-              this.props.currentUser ? (
-                <Redirect to='/our-dishes' />
-              ) : (
-                <SignInAndSignUpPage />
-              )}/>
-          </div>
-        </Switch>
+        <div className="app">
+          <Switch>
+              <Route path="/" exact component={Homepage} />  
+              <Route path="/our-dishes" component={Ourdishes} />  
+              <Route path="/about-us" component={AboutUs} />  
+              <Route path="/purchase-history" component={PurchaseHistory}/>
+              <Route path="/contact-us" component={ContactUs} />  
+              <Route path='/checkout' component={Checkout} />
+              <Route path='/signin' exact render={() => 
+                this.props.currentUser ? (
+                  <Redirect to='/our-dishes' />
+                ) : (
+                  <SignInAndSignUpPage />
+                )}/>
+          </Switch>
+        </div>
       )
   }
 }

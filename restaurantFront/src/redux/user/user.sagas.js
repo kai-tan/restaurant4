@@ -19,9 +19,14 @@ export function* getSnapshotFromUserAuth(userAuth) {
 
 export function* signInWithGoogle() {
     try {
-        const {user} = yield auth.signInWithPopup(googleProvider)
         
-        yield getSnapshotFromUserAuth(user)
+        const token = yield auth.signInWithPopup(googleProvider)
+        console.log(token.credential.idToken);
+        token.user.getIdToken().then((token) => {
+            console.log({ token });
+            localStorage.setItem("token", token);
+        })
+        yield getSnapshotFromUserAuth(token.user)
     } catch(error) {
         yield put(
             signInFailure(error)
@@ -31,9 +36,12 @@ export function* signInWithGoogle() {
 
 export function* signInWithFacebook() {
     try {
-        const {user} = yield auth.signInWithPopup(facebookProvider)
-        
-        yield getSnapshotFromUserAuth(user)
+        const token = yield auth.signInWithPopup(facebookProvider)
+        token.user.getIdToken().then((token) => {
+            console.log({ token });
+            localStorage.setItem("token", token);
+        })
+        yield getSnapshotFromUserAuth(token.user)
     } catch(error) {
         yield put(
             signInFailure(error)
@@ -43,9 +51,13 @@ export function* signInWithFacebook() {
 
 export function* signInWithEmail({payload: { email, password }}) {
     try {
-        const { user } = yield auth.signInWithEmailAndPassword(email, password)
+        const token = yield auth.signInWithEmailAndPassword(email, password)
+        token.user.getIdToken().then((token) => {
+            console.log({ token });
+            localStorage.setItem("token", token);
+        })
         
-        yield getSnapshotFromUserAuth(user)
+        yield getSnapshotFromUserAuth(token.user)
     } catch(error) {
         yield put(signInFailure(error))
     }

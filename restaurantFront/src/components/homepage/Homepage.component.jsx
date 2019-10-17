@@ -9,7 +9,6 @@ import ladyrestaurant from '../../assets/images/ladyrestaurant.jpg'
 
 const Homepage = () => {
     
-    
     return (
         
         <div className={styles.homepage}>

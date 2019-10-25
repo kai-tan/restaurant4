@@ -3,7 +3,8 @@ import UserActionTypes from './user.types'
 const INITIAL_STATE = {
     currentUser: null,
     error: null,
-    isFetching: false
+    isFetching: false,
+    userRole: null
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -47,6 +48,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case UserActionTypes.SIGN_UP_FAILURE:
             return {
                 ...state, 
+                error: action.payload
+            }
+        case UserActionTypes.CHECK_USER_ROLE_SUCCESS:
+            return {
+                ...state, 
+                userRole: action.payload
+            }
+        case UserActionTypes.CHECK_USER_ROLE_FAILURE:
+            return {
+                ...state, 
+                userRole: null, 
                 error: action.payload
             }
         default: 

@@ -12,50 +12,70 @@ import styles from './purchase-history.module.scss';
 
 class PurchaseHistory extends Component {     
 
+    constructor(props) {
+        super(props);
+        this.state = { width: 0, height: 0 };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+
     execute = (orders) => {
         const transformObject = Object.values(orders).map((order) => {
             return {
                 id: order.id,
                 createdAt: order.createdAt,
                 products: order.products,
+                status: order.status
             }
         })
 
         return transformObject.map((order) => {
-            return <OrderRow key={order.id} id={order.id} createdAt={order.createdAt} products={order.products} /> 
+            return <OrderRow key={order.id} id={order.id} createdAt={order.createdAt} products={order.products} status={order.status} /> 
         })
     }   
 
     componentDidMount() {
+
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+
         if (this.props.selectCurrentUser) {
             const currentUser = this.props.selectCurrentUser
-            console.log(this.props);
             this.props.fetchOrdersStartAsync(currentUser.id); 
         }
       
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
     render() {
+        console.log(this.state.width);
         const orders = this.props.selectOrders ? this.props.selectOrders : '';
         return (
             <div className={styles.initial}>
                 <Header /> 
-                <div className={styles.purchaseHistory}>
-                    Purchase History
-                    <br />
-                    <div className="row">
-                        <div class="col-sm-2">
+                { this.props.selectIsFetching === false ? 
+                (<div className={styles.purchaseHistory}>
+                    <div className={`row ${styles.mainHeader}`}>
+                        <div className={`col-sm-2 ${styles.itemHeader}`}>
                         Order ID 
                         </div>
-                        <div class="col-sm-2">
-                        CreatedAt
+                        <div className={`col-sm-2 ${styles.itemHeader}`}>
+                        Created At
                         </div>
-                        <div class="col-sm-8">
+                        <div className={`col-sm-8 ${styles.itemHeader}`}>
                         Products
                         </div>
                     </div>
                     {this.execute(orders)}
-                </div>
+                </div>) : (<div className={styles.ldsRing} style={{margin: '100px auto', display: 'block'}}><div></div><div></div><div></div><div></div></div>)
+                }
             </div>
         )
     }

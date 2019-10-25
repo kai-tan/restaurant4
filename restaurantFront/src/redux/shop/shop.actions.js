@@ -30,3 +30,30 @@ export const fetchFoodsStartAsync = () => {
 }
 
 
+export const fetchSingleProductStart = () => ({
+    type: ShopActionTypes.FETCH_SINGLE_PRODUCT_START
+})
+
+export const fetchSingleProductSuccess = food => ({
+    type: ShopActionTypes.FETCH_SINGLE_PRODUCT_SUCCESS,
+    payload: food
+})
+
+export const fetchSingleProductFailure = errorMessage => ({
+    type: ShopActionTypes.FETCH_SINGLE_PRODUCT_FAILURE,
+    payload: errorMessage
+})
+
+export const fetchSingleProductAsync = (foodId) => {
+    return dispatch => {
+        const collectionRef = firestore.collection('food'); 
+        dispatch(fetchSingleProductStart());
+
+        collectionRef.doc(foodId).get().then(snapshot => {
+            console.log(snapshot);
+            dispatch(fetchSingleProductSuccess(snapshot.data())) 
+        }).catch(error => dispatch(fetchSingleProductFailure(error.message)))
+    }
+}
+
+

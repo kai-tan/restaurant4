@@ -12,6 +12,8 @@ import ContactUs from './components/contactus/contactus.component'
 import Checkout from './components/checkout/checkout.component'
 import SignInAndSignUpPage from './pages/signin-signup/signin-signup.component'
 import { selectCurrentUser } from './redux/user/user.selectors'
+import adminOrder from './components/adminOrder/adminOrder.component'
+import SingleProductPage from './pages/singleproduct/singleProduct.component';
 
 class App extends React.Component {
 
@@ -23,6 +25,7 @@ class App extends React.Component {
               <Route path="/" exact component={Homepage} />  
               <Route path="/our-dishes" component={Ourdishes} />  
               <Route path="/about-us" component={AboutUs} />  
+              <Route path="/manage-orders" component={adminOrder} />  
               <Route path="/purchase-history" component={PurchaseHistory}/>
               <Route path="/contact-us" component={ContactUs} />  
               <Route path='/checkout' component={Checkout} />
@@ -32,6 +35,7 @@ class App extends React.Component {
                 ) : (
                   <SignInAndSignUpPage />
                 )}/>
+              <Route path="/single-product/:id" component={SingleProductPage} />
           </Switch>
         </div>
       )

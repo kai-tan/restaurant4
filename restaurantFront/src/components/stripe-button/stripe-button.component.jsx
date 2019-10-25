@@ -7,8 +7,9 @@ import { createStructuredSelector } from 'reselect'
 import { selectCartItems } from '../../redux/cart/cart.selectors'
 import { clearCart } from '../../redux/cart/cart.actions'
 import { selectCurrentUser } from '../../redux/user/user.selectors'
+import { paymentStart, paymentSuccess, paymentFailure } from '../../redux/payment/payment.actions'
 
-const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCart }) => {
+const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCart, paymentStart, paymentSuccess, paymentFailure }) => {
     const priceForStripe = price * 100 
     const publishableKey = 'pk_test_ucXaV8Mq4mZAZBBut0t9MiMX00TlYsFBPJ'
 
@@ -21,7 +22,9 @@ const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCar
             products: cartItems,
             userId: currentUser.id, 
             username: currentUser.displayName
-        }
+        }   
+
+        paymentStart();
 
         axios({
             url: 'payment',
@@ -45,14 +48,17 @@ const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCar
             })
                 .then((res) => {
                     console.log(res.data)
+                    paymentSuccess()
                     clearCart();
                     return history.push('/our-dishes');
                 })
                 .catch((err) => {
+                    paymentFailure();
                     console.log(err.response)
                 })
 
         }).catch( error => {
+            paymentFailure();
             console.log('Payment error: ', error);
             alert(
                 'There was an issue with your payment. Please make sure you use the provided credit card'
@@ -83,7 +89,10 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-    clearCart: () => dispatch(clearCart())
+    clearCart: () => dispatch(clearCart()),
+    paymentFailure: () => dispatch(paymentFailure()),
+    paymentStart: () => dispatch(paymentStart()),
+    paymentSuccess: () => dispatch(paymentSuccess())
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StripeCheckoutButton));

@@ -7,16 +7,19 @@ import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 
-import { store, persistor } from './redux/store'
+import { store, persistor, rrfProps } from './redux/store'
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <PersistGate persistor={persistor}>
-                <App />
-            </PersistGate>
-        </BrowserRouter>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <BrowserRouter>
+                <PersistGate persistor={persistor}>
+                    <App />
+                </PersistGate>
+            </BrowserRouter>
+        </ReactReduxFirebaseProvider>
     </Provider>, 
     document.getElementById('root'));
 

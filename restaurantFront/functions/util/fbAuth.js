@@ -1,5 +1,4 @@
 const { admin, db } = require('./admin');
-const {OAuth2Client} = require('google-auth-library');
 
 module.exports = (req, res, next) => {
   let idToken;

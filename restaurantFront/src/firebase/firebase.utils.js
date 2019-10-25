@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/functions'; 
 
 const config = {
     apiKey: "AIzaSyDgc5xhNZYV7kiFVUjC2bOc_-ZyQe12Esw",
@@ -76,14 +77,15 @@ export const convertCollectionsSnapshotToMapFood = (collections) => {
 
 export const convertCollectionsSnapshotToMapOrder = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
-    const { username, userId, products, createdAt } = doc.data()
+    const { username, userId, products, createdAt, status } = doc.data()
 
     return {
       id: doc.id,
       username, 
       userId,
       products, 
-      createdAt
+      createdAt,
+      status
     }
   })
 
@@ -102,8 +104,15 @@ export const getCurrentUser = () => {
   })
 }
 
+// react-redux-firebase config
+export const rrfConfig = {
+  userProfile: 'users',
+   useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+export const functions = firebase.functions(); 
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const facebookProvider = new firebase.auth.FacebookAuthProvider();

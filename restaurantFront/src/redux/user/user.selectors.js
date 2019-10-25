@@ -11,3 +11,8 @@ export const selectIsFetching = createSelector(
     [selectUser], 
     (user) => user.isFetching
 )
+
+export const selectCurrentRole = createSelector(
+    [selectUser], 
+    (user) => user.userRole
+)

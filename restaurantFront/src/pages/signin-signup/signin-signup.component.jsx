@@ -16,7 +16,7 @@ const SignInAndSignUpPage = ({ isFetching }) => {
     <div className={styles.initial}>
       <Header />
         {
-          isFetching === false ? (<div className={styles.signInAndSignUp}><SignIn /><SignUp /></div>) : null
+          isFetching === false ? (<div className={styles.signInAndSignUp}><SignIn /><SignUp /></div>) : (<div className={styles.ldsRing} style={{margin: '100px auto', display: 'block'}}><div></div><div></div><div></div><div></div></div>)
         }
     </div>
   )

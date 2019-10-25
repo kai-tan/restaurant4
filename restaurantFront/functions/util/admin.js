@@ -13,5 +13,5 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-exports.GOOGLE_APPLICATION_CREDENTIALS = "C:\Users\Kai Tan\Desktop\Projects\restaurant2\restaurant\restaurantFront/restaurant-23350530831a"
+// exports.GOOGLE_APPLICATION_CREDENTIALS = "C:\Users\Kai Tan\Desktop\Projects\restaurant2\restaurant\restaurantFront/restaurant-23350530831a"
 module.exports = { admin, db };

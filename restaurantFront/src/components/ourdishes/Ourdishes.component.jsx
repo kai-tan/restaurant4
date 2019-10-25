@@ -71,7 +71,7 @@ class Ourdishes extends React.Component {
         const { selectFoodsForInitFetch, selectIsFetching } = this.props
 
         const passingResult = this.state.filteredResult === null ? selectFoodsForInitFetch : this.state.filteredResult
-
+        console.log(this.props);
         return (
             <div className={style.ourdishes}>
                 <Header />

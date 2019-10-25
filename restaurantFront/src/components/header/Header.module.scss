@@ -1,3 +1,7 @@
+.navbarMainContainer{
+    width: 100%;
+}
+
 .headerclass {
         
     // width: 100%;
@@ -13,6 +17,16 @@
     position: relative
 }
 
+.linkStyle{
+    text-decoration: none;
+    color: rgba(0,0,0,.5);
+
+    &:hover,&:visited,&:active {
+        text-decoration: none; 
+        color:rgba(0,0,0,.7);
+
+    }
+}
 
 @media screen and (min-width: 576px) {
 

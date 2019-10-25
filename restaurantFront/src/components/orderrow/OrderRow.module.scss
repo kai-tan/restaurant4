@@ -1,0 +1,128 @@
+.row {
+    margin-left: 0px!important; 
+    margin-right: 0px!important; 
+}
+
+.firstColumn {
+    display: flex;
+    flex-direction: column;
+    width: auto!important;
+}
+
+.secondColumn {
+    width: auto!important;
+}
+
+.status {
+    padding: 7px 14px; 
+    background-color: #ff8400;
+    align-self: flex-end;
+    display: inline-block;
+}
+
+.completed { 
+    background-color: #28a745!important; 
+    color: white; 
+}
+
+
+.rowOneContainer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rowSecondContainer {
+    align-self: flex-end;
+    width: 100%;
+    text-align: right;
+    margin: 8px 15px;
+    display: flex;
+    justify-content: center
+}
+
+.totalPrice {
+    padding: 7px 14px;
+    background-color: #33b5e5;
+    color: white; 
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.displayProduct {
+    flex-wrap: wrap;
+    height: 350px; 
+    overflow: auto; 
+    position: relative; 
+    justify-content: center;
+}
+
+p {
+    margin: 0!important;
+}
+
+.FontTimesContainer {
+    position: absolute; 
+    top: 3%; 
+    right: 3%; 
+    border-radius: 50%;
+    background: red; 
+    padding: 5px 10px; 
+    cursor: pointer;
+
+    &:hover {
+        background: #BD0000;
+    }
+}
+
+
+@media screen and (min-width: 576px) {
+
+    .rowOneContainer {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .displayProduct {
+        flex-wrap: wrap;
+        height: 350px; 
+        overflow: auto; 
+        position: relative; 
+        justify-content: flex-end;
+    }
+
+    .rowSecondContainer {
+        align-self: flex-end;
+        width: 100%;
+        text-align: right;
+        margin: 8px 15px;
+        display: block;
+        justify-content: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    
+    .ourdishes {
+        width: 668px;
+        
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .ourdishes {
+        width: 892px;
+        
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .ourdishes {
+        width: 1100px;
+        
+    }
+}

@@ -12,6 +12,11 @@ export const selectIsFetching = createSelector(
     shop => shop.isFetching
 )
 
+export const selectSingleProduct = createSelector(
+    [selectShop],
+    shop => shop.singleProduct
+)
+
 export const selectFoodsForInitFetch = createSelector(
     [selectFoods],
     foods => foods ? Object.keys(foods).map(key => foods[key]) : []

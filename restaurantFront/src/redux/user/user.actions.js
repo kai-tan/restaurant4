@@ -1,5 +1,6 @@
 import  UserActionTypes from './user.types';
 import firebase from '../../firebase/firebase.utils';
+import axios from 'axios'; 
 
 export const googleSignInStart = () => ({
     type: UserActionTypes.GOOGLE_SIGN_IN_START
@@ -21,7 +22,7 @@ export const signInSuccess = (user) => ({
 
 export const signInFailure = error => ({
     type: UserActionTypes.SIGN_IN_FAILURE,
-    payload: error
+    payload: error.message
 })
 
 export const checkUserSession = () => ({
@@ -79,21 +80,17 @@ export const CheckUserRoleAsync = () => {
                         // Show moderator UI. 
                         // showModeratorUI(); 
                         dispatch(CheckUserRoleSuccess('moderator'))
-                        console.log('Has moderator claims')
                     } else {
                         // Show regular user UI. 
                         // showRegularUI(). 
                         dispatch(CheckUserRoleSuccess('user'))
-                        console.log('No moderator claims')
                     }
                 })
                 .catch((error) => {
-                    console.log(error); 
                     dispatch(CheckUserRoleFailure('Can\'t get Id Token'))
                 })
             } else {
               // No user is signed in.
-              console.log('User not signed in')
               dispatch(CheckUserRoleFailure('User not signed in'))
             }
           });
@@ -103,6 +100,132 @@ export const CheckUserRoleAsync = () => {
 export const unsubcribeAuth = () => {
     return dispatch => {
         unsubcribe(); 
-        console.log('Listener is unsubscribe')
     }
 }
+
+export const FetchUserDetailsStart = () => ({
+    type: UserActionTypes.FETCH_USER_DETAILS_START
+})
+
+export const FetchUserDetailsSuccess = (userDetails) => ({
+    type: UserActionTypes.FETCH_USER_DETAILS_SUCCESS,
+    payload: userDetails
+})
+
+export const FetchUserDetailsFailure = (error) => ({
+    type: UserActionTypes.FETCH_USER_DETAILS_FAILURE,
+    payload: error
+})
+
+export const FetchUserDetailsAsync = () => {
+    return dispatch => {
+
+        // dispatch(FetchUserDetailsStart())
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                const userDetails = {
+                displayName: user.displayName, 
+                email: user.email, 
+                photoURL: user.photoURL
+                }
+                dispatch(FetchUserDetailsSuccess(userDetails))
+            } else {
+              // No user is signed in.
+            }  
+          });
+       
+    }
+}
+
+
+    export const SaveAllChangesStart = () => ({
+        type: UserActionTypes.SAVE_ALL_CHANGES_START
+    })
+    
+    export const SaveAllChangesSuccess = () => ({
+        type: UserActionTypes.SAVE_ALL_CHANGES_SUCCESS
+    })
+    
+    export const SaveAllChangesFailure = (error) => ({
+        type: UserActionTypes.SAVE_ALL_CHANGES_FAILURE,
+        payload: error
+    })
+    
+    export const SaveAllChangesAsync = (itemDetails) => {
+        return dispatch => {
+            
+            const { displayName, emailAddress, newPassword, confirmPassword} = itemDetails; 
+
+            dispatch(SaveAllChangesStart())
+            const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                        console.log(user);
+                      user.updateProfile({
+                        displayName: displayName,
+                      }).then(function() {
+                            console.log('Update Successfully')
+                            if ( user.providerData[0].providerId === 'password') {
+
+                                var existingPassword = prompt("Please enter your password");
+                                    var credentials = firebase.auth.EmailAuthProvider.credential(
+                                        user.email,
+                                        existingPassword
+                                      );
+                                      return user.reauthenticateWithCredential(credentials)
+                            } 
+                      }).then(function() {
+                        // User re-authenticated.
+                        if (user.email === emailAddress) {
+                            return; 
+                        }
+                        return user.updateEmail(emailAddress)
+                        }).then(function() {
+                            if ( user.providerData[0].providerId === 'google.com' || user.providerData[0].providerId === 'facebook.com' ) {
+                                return; 
+                            }
+                            if ( !newPassword && !confirmPassword ) {
+                                return; 
+                            }
+
+                            if ( newPassword !== confirmPassword ) {
+                                throw new Error('Password entered does not match. Please try again.')
+                            }
+
+                            if ( newPassword && confirmPassword && newPassword === confirmPassword) {
+                                
+                                console.log('this runs!')   
+                                return user.updatePassword(newPassword)
+                            } else {
+                                throw new Error('Password entered does not match. Please try again.')
+                            }
+                    
+                      }).then(function() {
+                        // Update successful.
+
+                        dispatch(SaveAllChangesSuccess())
+                      }).catch(function(error) {
+                        // An error happened.
+                        console.log(error);
+                        dispatch(SaveAllChangesFailure(error))
+                      });
+
+                } else {
+                  // No user is signed in.
+                  console.log('not signed in')
+                }   
+              });
+
+            unsubscribe(); 
+           
+        }
+    }
+
+    export const setErrorToNull = () => ({
+        type: UserActionTypes.SET_ERROR_TO_NULL
+    })
+    
+    export const removeMessage = () => ({
+        type: UserActionTypes.REMOVE_MESSAGE
+    })
+
+    

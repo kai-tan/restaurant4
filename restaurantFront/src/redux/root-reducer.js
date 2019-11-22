@@ -13,7 +13,7 @@ import paymentReducer from './payment/payment.reducer'
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', 'user']
+    whitelist: ['cart', 'user', 'shop']
 }
 
 const rootReducer = combineReducers({

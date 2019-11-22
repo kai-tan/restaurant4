@@ -1,10 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+import firebase from '../../firebase/firebase.utils'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 import style from './Ourdishes.module.scss'
 import Header from '../header/Header.component'
-import { selectFoodsForInitFetch, selectIsFetching } from '../../redux/shop/shop.selectors'
+import { selectFireStoreOrderFoodPublished, selectIsFetching } from '../../redux/shop/shop.selectors'
 import WithSpinner from '../with-spinner/with-spinner.component'
 import ListFood from '../listfoods/listfood.component'
 
@@ -13,6 +16,8 @@ import { fetchFoodsStart } from '../../redux/shop/shop.actions'
 const ListFoodWithSpinner = WithSpinner(ListFood)
 
 class Ourdishes extends React.Component {
+
+
     state = {
         inputfield: '',
         error: null,
@@ -25,39 +30,47 @@ class Ourdishes extends React.Component {
 
         const { fetchFoods } = this.props
         fetchFoods()
+
+        var user = firebase.auth().currentUser;
+        console.log(user); 
+        if (!user) {
+            return;
+        }
+        // console.log(user.getPhotoUrl().toString()); 
     }
+
 
     handleChange = (foodType) => (event) => {
 
-        const { selectFoodsForInitFetch } = this.props
-        console.log(foodType, selectFoodsForInitFetch);
+        const { selectFireStoreOrderFoodPublished } = this.props
+        console.log(foodType, selectFireStoreOrderFoodPublished);
 
         let filteredResult = null;
 
         if (foodType === 'main-dishes') {
-            filteredResult = selectFoodsForInitFetch.filter((item) => {
+            filteredResult = selectFireStoreOrderFoodPublished.filter((item) => {
                return item.category ===  foodType
             })
 
             this.setState({filteredResult: filteredResult})
         } else if (foodType === 'all') {
-            filteredResult = selectFoodsForInitFetch
+            filteredResult = selectFireStoreOrderFoodPublished
 
             this.setState({filteredResult: filteredResult})
         } else if (foodType === 'side-dishes') {
-            filteredResult = selectFoodsForInitFetch.filter((item) => {
+            filteredResult = selectFireStoreOrderFoodPublished.filter((item) => {
                 return item.category ===  foodType
              })
  
              this.setState({filteredResult: filteredResult})
         } else if (foodType === 'desserts') {
-            filteredResult = selectFoodsForInitFetch.filter((item) => {
+            filteredResult = selectFireStoreOrderFoodPublished.filter((item) => {
                 return item.category ===  foodType
              })
  
              this.setState({filteredResult: filteredResult})
         } else if (foodType === 'drinks') {
-            filteredResult = selectFoodsForInitFetch.filter((item) => {
+            filteredResult = selectFireStoreOrderFoodPublished.filter((item) => {
                 return item.category ===  foodType
              })
  
@@ -68,9 +81,9 @@ class Ourdishes extends React.Component {
     
 
     render() {
-        const { selectFoodsForInitFetch, selectIsFetching } = this.props
-
-        const passingResult = this.state.filteredResult === null ? selectFoodsForInitFetch : this.state.filteredResult
+        const { selectFireStoreOrderFoodPublished, selectIsFetching } = this.props
+        console.log(selectFireStoreOrderFoodPublished)
+        const passingResult = this.state.filteredResult === null ? selectFireStoreOrderFoodPublished : this.state.filteredResult
         console.log(this.props);
         return (
             <div className={style.ourdishes}>
@@ -89,7 +102,7 @@ class Ourdishes extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-    selectFoodsForInitFetch: selectFoodsForInitFetch,
+    selectFireStoreOrderFoodPublished: selectFireStoreOrderFoodPublished,
     selectIsFetching: selectIsFetching
 })
 
@@ -97,4 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchFoods: () => dispatch(fetchFoodsStart()) 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ourdishes); 
+export default compose(
+    firestoreConnect(() => ['food']), // or { collection: 'todos' }
+    connect(mapStateToProps, mapDispatchToProps)
+   )(Ourdishes)

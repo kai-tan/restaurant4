@@ -3,6 +3,30 @@
     margin: 0 auto;
 }
 
+.rowContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.firstColContainer {
+    margin-bottom: 40px;
+    padding: 1rem;
+}
+
+.secondColContainer {
+    padding: 1rem;
+}
+
+.label {
+    width: 80px;
+}
+
+.inputRow {
+    margin-bottom: 1rem;
+}
 @media screen and (min-width: 576px) {
 
 }
@@ -19,6 +43,15 @@
     .contactUsContainer {
         width: 892px;
         
+    }
+
+    .rowContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 50px;
+        margin-bottom: 50px;
     }
 }
 

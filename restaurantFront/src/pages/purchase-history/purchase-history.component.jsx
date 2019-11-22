@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'; 
 import { createStructuredSelector } from 'reselect'
 import { selectOrders, selectIsFetching } from '../../redux/orders/orders.selectors'
@@ -54,12 +55,24 @@ class PurchaseHistory extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
+
     render() {
-        console.log(this.state.width);
+        
+        
+        function isEmpty(obj) {
+            for(var key in obj) {
+                if(obj.hasOwnProperty(key))
+                    return false;
+            }
+            return true;
+        }
+
         const orders = this.props.selectOrders ? this.props.selectOrders : '';
+        console.log(orders);
         return (
             <div className={styles.initial}>
                 <Header /> 
+                {this.state.width < 992 ? <h2 className={styles.header}>Purchase History</h2> : ''}
                 { this.props.selectIsFetching === false ? 
                 (<div className={styles.purchaseHistory}>
                     <div className={`row ${styles.mainHeader}`}>
@@ -73,7 +86,7 @@ class PurchaseHistory extends Component {
                         Products
                         </div>
                     </div>
-                    {this.execute(orders)}
+                    { orders ? ( !isEmpty(orders) ? this.execute(orders) : <p className={styles.emptyPurchaseHistory}>Your purchase history is empty now. Visit <Link to="/">shop page</Link> to add some items.</p> ) : <p className={styles.emptyPurchaseHistory}>Your purchase history is empty now. Visit <Link to="/">shop page</Link> to add some items.</p>}
                 </div>) : (<div className={styles.ldsRing} style={{margin: '100px auto', display: 'block'}}><div></div><div></div><div></div><div></div></div>)
                 }
             </div>

@@ -11,12 +11,12 @@ import { Link, NavLink, withRouter } from 'react-router-dom'
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
-import { selectCurrentUser, selectCurrentRole } from '../../redux/user/user.selectors';
+import { selectCurrentUser, selectCurrentRole, selectUserDetails } from '../../redux/user/user.selectors';
 import { signOutStart, CheckUserRoleAsync, unsubcribeAuth } from '../../redux/user/user.actions'
 import logo from '../../assets/images/logo.png'
 import styles from './Header.module.scss'; 
 
-const Header = ({ currentUser, hidden, signOutStart, selectCurrentRole, CheckUserRoleAsync, unsubcribeAuth, match }) => {
+const Header = ({ currentUser, hidden, signOutStart, selectCurrentRole, CheckUserRoleAsync, unsubcribeAuth, match, selectUserDetails }) => {
 
     useEffect(() => {
         CheckUserRoleAsync(); 
@@ -29,34 +29,39 @@ const Header = ({ currentUser, hidden, signOutStart, selectCurrentRole, CheckUse
 
     return (
         <Navbar bg="light" expand="lg" className={styles.navbarMainContainer}>
-            <Navbar.Brand href="#home">
+            {/* <Navbar.Brand href="#home"> */}
                 <div className="logo-container">
                     <Link to='/'><img src={logo} style={{width:150, height: 150}} alt="Our logo" /></Link>
                 </div>
-            </Navbar.Brand>
+            {/* </Navbar.Brand> */}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
-                    <Nav.Link as={Link} to="/our-dishes" active={ match.path === "/our-dishes" ? true : '' } >
-                        Our Dishes
+                    <Nav.Link as={Link} to="/" active={ match.path === "/" ? true : '' } >
+                        Home
                     </Nav.Link>
                     <Nav.Link as={Link} to="/about-us" active={ match.path === "/about-us" ? true : '' } >About Us</Nav.Link>
                     <Nav.Link as={Link} to="/contact-us" active={ match.path === "/contact-us" ? true : '' }>Contact Us</Nav.Link>
                     {
-                        selectCurrentRole === 'moderator' ? (
+                        selectUserDetails === 'moderator' ? (
                             <Nav.Link as={Link} to="/manage-orders" active={ match.path === "/manage-orders" ? true : '' }>Manage Orders</Nav.Link>
                         ) : (null)
                     }
-                    {
+                    {/* {
                         currentUser ? (
                             <Nav.Link as={Link} to="/purchase-history" active={ match.path === "/purchase-history" ? true : '' } >Purchase History</Nav.Link>
                         ) : (
                             null 
                         )
-                    }
+                    } */}
                     {currentUser ? (
-                        <Nav.Link as={Link} to="/signin" onClick={signOutStart}>Sign Out</Nav.Link>
-                        // <li onClick={signOutStart}><NavLink to="/signin" activeClassName="resNavLinkActive">Sign Out</NavLink></li>
+                        <NavDropdown title="My Account" id="basic-nav-dropdown" active={ (match.path === "/purchase-history" || match.path === "/my-account") ?  true : '' }>
+                            <NavDropdown.Item as={Link} to="/purchase-history">Purchase History</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="/my-account">My Account</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to="/signin" onClick={signOutStart}>Sign Out</NavDropdown.Item>
+                        </NavDropdown>
                     ) : (
                         <Nav.Link as={Link} to="/signin" active={ match.path === "/signin" ? true : '' } >Sign In</Nav.Link>
                     )}
@@ -80,7 +85,8 @@ const Header = ({ currentUser, hidden, signOutStart, selectCurrentRole, CheckUse
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
     hidden: selectCartHidden,
-    selectCurrentRole: selectCurrentRole
+    selectCurrentRole: selectCurrentRole,
+    selectUserDetails: selectUserDetails
   })
   
   const mapDispatchToProps = dispatch => ({

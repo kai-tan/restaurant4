@@ -9,12 +9,7 @@ const path = require('path');
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-const hi = () => {
-    const you = 3;
-    console.log('Hihi', you);
-}
-
-hi(); 
+console.log(process.env.NODE_ENV);
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -49,6 +44,8 @@ app.listen(port, error => {
 })
 
 app.post('/payment', (req, res) => {
+
+    console.log(req.body); 
     const body = {
         source: req.body.token.id,
         amount: req.body.amount, 
@@ -57,11 +54,11 @@ app.post('/payment', (req, res) => {
 
     stripe.charges.create(body, (stripeErr, stripeRes) => {
         if (stripeErr) {
-            res.status(500).send({ error: stripeErr });
+            console.log(stripeErr)
+            res.status(500).json({ error: stripeErr });
         } else {
-            res.status(200).send({ success: stripeRes });
+            console.log(stripeRes)
+            res.status(200).json({ success: stripeRes });
         }
     })
 })
-
-

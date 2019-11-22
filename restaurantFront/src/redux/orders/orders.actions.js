@@ -22,10 +22,12 @@ export const fetchOrdersStartAsync = (userId) => {
         const collectionRef = firestore.collection('orders'); 
         dispatch(fetchOrdersStart());
 
-        
+        console.log(collectionRef); 
+        console.log(userId); 
         collectionRef.where('userId', '==', userId).orderBy('createdAt', 'desc').get().then(snapshot => {
 
             const collectionsMap = convertCollectionsSnapshotToMapOrder(snapshot)
+            console.log(collectionsMap);
             dispatch(fetchOrdersSuccess(collectionsMap))
         }).catch(error => dispatch(fetchOrdersFailure(error.message)))
     }
@@ -128,12 +130,17 @@ export const AddAdminAsync = (adminEmail) => {
     return dispatch => {
         dispatch(AddAdminStart());
         console.log(adminEmail);
+
+        let email = {
+            email: adminEmail
+        }
         axios({ 
             method: 'post', 
-            url: 'http://localhost:5001/restaurant-45eb0/europe-west1/api/addadmin', 
-            data: JSON.stringify(adminEmail),
+            url: 'https://asia-east2-restaurant-45eb0.cloudfunctions.net/api/addadmin', 
+            data: JSON.stringify(email),
             headers: { 
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             }
         }).then((result => {
             console.log(result); 

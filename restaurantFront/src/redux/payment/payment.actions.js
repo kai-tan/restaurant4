@@ -11,3 +11,7 @@ export const paymentSuccess = () => ({
 export const paymentFailure = () => ({
     type: PaymentActionTypes.PAYMENT_FAILURE
 })
+
+export const clearSuccessMessage = () => ({
+    type: PaymentActionTypes.CLEAR_SUCCESS_MESSAGE
+})

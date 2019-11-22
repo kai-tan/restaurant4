@@ -21,9 +21,7 @@ export function* signInWithGoogle() {
     try {
         
         const token = yield auth.signInWithPopup(googleProvider)
-        console.log(token.credential.idToken);
         token.user.getIdToken().then((token) => {
-            console.log({ token });
             localStorage.setItem("token", token);
         })
         yield getSnapshotFromUserAuth(token.user)
@@ -38,7 +36,6 @@ export function* signInWithFacebook() {
     try {
         const token = yield auth.signInWithPopup(facebookProvider)
         token.user.getIdToken().then((token) => {
-            console.log({ token });
             localStorage.setItem("token", token);
         })
         yield getSnapshotFromUserAuth(token.user)
@@ -52,8 +49,8 @@ export function* signInWithFacebook() {
 export function* signInWithEmail({payload: { email, password }}) {
     try {
         const token = yield auth.signInWithEmailAndPassword(email, password)
+        
         token.user.getIdToken().then((token) => {
-            console.log({ token });
             localStorage.setItem("token", token);
         })
         
@@ -86,11 +83,15 @@ export function* signUp({payload: {email, password, displayName}}) {
     try {
 
         const { user } = yield auth.createUserWithEmailAndPassword(email, password)
+
+        yield user.updateProfile({ displayName: displayName })
+
         yield createUserProfileDocument(user, { displayName })    
 
         yield put(signUpSuccess({email, password}))
+        
     } catch(error) {
-        yield put(signUpFailure())
+        yield put(signUpFailure(error))
     }
 }
 

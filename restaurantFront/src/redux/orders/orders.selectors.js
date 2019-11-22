@@ -29,7 +29,7 @@ export const selectFirebasePendingOrders = createSelector(
 export const selectFirebaseCompletedOrders = createSelector(
     [selectFirestore],
     firestore => firestore.ordered.orders ? firestore.ordered.orders.filter((order) => {
-        return order.status == "Completed" }) : ''
+        return order.status === "Completed" }) : ''
 )
 
 export const selectCompletedOrders = createSelector(

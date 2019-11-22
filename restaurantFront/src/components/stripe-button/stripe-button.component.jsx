@@ -9,7 +9,7 @@ import { clearCart } from '../../redux/cart/cart.actions'
 import { selectCurrentUser } from '../../redux/user/user.selectors'
 import { paymentStart, paymentSuccess, paymentFailure } from '../../redux/payment/payment.actions'
 
-const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCart, paymentStart, paymentSuccess, paymentFailure }) => {
+const StripeCheckoutButton = ({ price, cartItems, currentUser, history, paymentStart, paymentSuccess, paymentFailure }) => {
     const priceForStripe = price * 100 
     const publishableKey = 'pk_test_ucXaV8Mq4mZAZBBut0t9MiMX00TlYsFBPJ'
 
@@ -25,21 +25,22 @@ const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCar
         }   
 
         paymentStart();
-
+        console.log(token);
         axios({
-            url: 'payment',
+            url: 'https://asia-east2-restaurant-45eb0.cloudfunctions.net/api/payment',
             method: 'post', 
-            data: {
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({
                 amount: priceForStripe,
-                token
-            }
+                token: token
+            })
         }).then(response => {
             console.log(response); 
             const token = localStorage.getItem('token');
             console.log(token);
             axios({ 
                 method: 'post', 
-                url: 'http://localhost:5001/restaurant-45eb0/europe-west1/api/order', 
+                url: 'https://asia-east2-restaurant-45eb0.cloudfunctions.net/api/order', 
                 data: JSON.stringify(order),
                 headers: { 
                     'Authorization': `Bearer ${token}`,
@@ -48,9 +49,7 @@ const StripeCheckoutButton = ({ price, cartItems, currentUser, history, clearCar
             })
                 .then((res) => {
                     console.log(res.data)
-                    paymentSuccess()
-                    clearCart();
-                    return history.push('/our-dishes');
+                    paymentSuccess();
                 })
                 .catch((err) => {
                     paymentFailure();

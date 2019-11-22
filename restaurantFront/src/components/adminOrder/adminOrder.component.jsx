@@ -7,10 +7,14 @@ import { firestoreConnect } from 'react-redux-firebase'
 
 import { selectPendingOrders, selectIsFetching, selectFirebasePendingOrders } from '../../redux/orders/orders.selectors'
 import { fetchAdminPendingOrdersAsync } from '../../redux/orders/orders.actions'
+import { selectSingleEditScreenId } from '../../redux/shop/shop.selectors'
 import OrderRow from '../orderrow/OrderRow.component';
 import AddAdminInput from '../addAdminInput/addAdminInput.component'; 
 import PendingOrders from '../pendingorders/PendingOrders.component'; 
 import CompletedOrders from '../completedorders/CompletedOrders.component'; 
+import EditAddProduct from '../editAddProduct/editAddProduct.component'; 
+import SingleEditProduct from '../../pages/single-edit-product/single-edit-product.component'
+import CreateSingleProduct from '../../pages/create-product/create-product.component'
 
 import styles from './adminOrder.module.scss';
 
@@ -45,7 +49,15 @@ class adminOrder extends Component {
     }   
 
 
-    handleClick = (status) => {
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevProps.selectSingleEditScreenId != this.props.selectSingleEditScreenId) {
+    //         console.log('ComponentDidUpdate runs');
+    //         let addEditPage = document.getElementById('addEditPage'); 
+    //         addEditPage.click(); 
+    //     }
+    // }
+
+    handleClick = (status, rightSideContent) => {
         console.log(status);
 
         switch(status) {
@@ -58,16 +70,30 @@ class adminOrder extends Component {
             case 'addadmin':
                 this.setState({ rightMainContent: <AddAdminInput /> })
                 break; 
+            case 'editAddProduct':
+                this.setState({ rightMainContent: rightSideContent })
+                break; 
             default: 
                 return;
         }
     }
+
+    goToPreviousPage = () => {
+        this.setState({ rightMainContent: <EditAddProduct goToCreatePage={this.goToCreatePage} /> })
+    }
+
+    goToCreatePage = () => {
+        this.setState({ rightMainContent: <CreateSingleProduct goToPreviousPage={this.goToPreviousPage} /> })
+    }
     
 
     render() {
+        let rightSideContent = <EditAddProduct goToCreatePage={this.goToCreatePage} />
+        console.log(this.props.selectSingleEditScreenId); 
+        if (this.props.selectSingleEditScreenId) {
+            rightSideContent = <SingleEditProduct id={this.props.selectSingleEditScreenId}/>
 
-
-
+        } 
         console.log(this.props.selectFirebasePendingOrders);
 
         const pendingOrders = this.props.selectFirebasePendingOrders ? this.props.selectFirebasePendingOrders : '';
@@ -80,8 +106,9 @@ class adminOrder extends Component {
                         <div className={styles.tab} onClick={() => this.handleClick('pendingorders')}>Pending Orders</div>
                         <div className={styles.tab} onClick={() => this.handleClick('completedorders')}>Completed Orders</div> 
                         <div className={styles.tab} onClick={() => this.handleClick('addadmin')}>Add Admin</div> 
+                        <div className={styles.tab} id='addEditPage' onClick={() => this.handleClick('editAddProduct', rightSideContent)}>Edit/add Product</div> 
                     </div>
-                    {this.state.rightMainContent}
+                    {this.props.selectSingleEditScreenId ? <SingleEditProduct id={this.props.selectSingleEditScreenId} /> : this.state.rightMainContent }
                 </div>
             </div>
         )
@@ -91,7 +118,8 @@ class adminOrder extends Component {
 const mapStateToProps = createStructuredSelector({
     selectPendingOrders: selectPendingOrders,
     selectIsFetching: selectIsFetching,
-    selectFirebasePendingOrders: selectFirebasePendingOrders
+    selectFirebasePendingOrders: selectFirebasePendingOrders,
+    selectSingleEditScreenId: selectSingleEditScreenId
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -100,7 +128,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 export default compose(
-    firestoreConnect(() => ['orders']), // or { collection: 'todos' }
+    firestoreConnect(() => ['orders', 'food']), // or { collection: 'todos' }
     connect(mapStateToProps, mapDispatchToProps)
    )(adminOrder)
 

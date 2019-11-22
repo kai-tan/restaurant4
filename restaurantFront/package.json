@@ -2,16 +2,20 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "https://asia-east2-restaurant-45eb0.cloudfunctions.net/api",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.7",
-    "@material-ui/core": "^4.5.1",
+    "@material-ui/core": "^4.6.0",
+    "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "firebase": "^7.0.0",
+    "formik": "^2.0.4",
     "google-auth-library": "^5.4.1",
+    "google-map-react": "^1.1.5",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
@@ -31,7 +35,9 @@
     "redux-saga": "^1.1.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "styled-components": "^4.4.0"
+    "stripe": "^7.12.0",
+    "styled-components": "^4.4.0",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",

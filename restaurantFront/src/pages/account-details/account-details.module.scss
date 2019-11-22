@@ -1,0 +1,78 @@
+
+.initial {
+
+  align-self: flex-start;
+  margin: 0 auto;
+  width: 100%;
+
+}
+
+.formContainer {
+    padding: 1.2rem 1.5rem;
+}
+
+.ldsRing {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .ldsRing div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border: 6px solid #808080;
+    border-radius: 50%;
+    animation: ldsRing 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #808080 transparent transparent transparent;
+  }
+  .ldsRing div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .ldsRing div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .ldsRing div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes ldsRing {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+    
+    .initial {
+        width: 100%;
+        
+    }
+
+    
+
+}
+
+@media screen and (min-width: 992px) {
+    .initial {
+        width: 100%;
+        
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+    .initial {
+        width: 100%;
+        
+    }
+}

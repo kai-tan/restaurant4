@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/functions'; 
+import 'firebase/storage';
+
 
 const config = {
     apiKey: "AIzaSyDgc5xhNZYV7kiFVUjC2bOc_-ZyQe12Esw",
@@ -16,6 +18,7 @@ const config = {
 
 firebase.initializeApp(config);
 
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   console.log(userAuth); 
   if (!userAuth) return;
@@ -23,9 +26,10 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   const userRef = firestore.doc(`users/${userAuth.uid}`);
 
   const snapShot = await userRef.get();
-
+  console.log(snapShot); 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
+    console.log(userAuth); 
     const createdAt = new Date();
     try {
       await userRef.set({
@@ -113,6 +117,8 @@ export const rrfConfig = {
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const functions = firebase.functions(); 
+export const storage = firebase.storage();
+
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const facebookProvider = new firebase.auth.FacebookAuthProvider();

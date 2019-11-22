@@ -1,7 +1,7 @@
 .imgContainer {
     
     width: 100%;
-
+    position: relative; 
     .cardImage {
         width: 100%; 
         height: 300px;
@@ -82,7 +82,7 @@
 }
 
 .itemDescription {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem!important;
 }
 
 
@@ -94,6 +94,12 @@
 
 .moreInfo {
     margin:0 10px;
+}
+
+.switchContainer {
+    position: absolute; 
+    top: 0.5rem; 
+    right: 0.5rem; 
 }
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);

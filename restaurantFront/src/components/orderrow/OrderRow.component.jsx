@@ -7,11 +7,11 @@ import { createStructuredSelector } from 'reselect'
 
 import { SetOrderStatusAsync, AdminDeleteOrderAsync } from '../../redux/orders/orders.actions'
 import { selectIsFetching } from '../../redux/orders/orders.selectors'
-import { selectCurrentRole } from '../../redux/user/user.selectors'
+import { selectUserDetails } from '../../redux/user/user.selectors'
 import InlineSpinner from '../inlineSpinner/inlineSpinner.component';
 import styles from './OrderRow.module.scss'
 
-const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminDeleteOrderAsync, selectIsFetching, selectCurrentRole }) => {
+const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminDeleteOrderAsync, selectIsFetching, selectUserDetails }) => {
 
     let transformedDate = moment(createdAt).fromNow()
 
@@ -28,7 +28,6 @@ const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminD
         return () => window.removeEventListener('resize', updateWindowDimensions);
     }, []);
 
-    console.log(ScreenSize);
     
     const updateWindowDimensions = () => {
         setScreenSize({ width: window.innerWidth, height: window.innerHeight });
@@ -92,7 +91,7 @@ const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminD
                         {displayProducts(InitProducts)}
                         {   
                             selectIsFetching === false ? 
-                            ( selectCurrentRole === 'moderator' ? (<div className={styles.FontTimesContainer} id={id} onClick={(e) => {
+                            ( selectUserDetails === 'moderator' ? (<div className={styles.FontTimesContainer} id={id} onClick={(e) => {
                             
 
                                 return handleCancelChange(e, id)}}>
@@ -108,14 +107,14 @@ const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminD
                 <div className={styles.rowSecondContainer}> 
                     <div className={styles.totalPrice}>Total: RM {calculateTotalPrice(iProducts)}</div>
                     {
-                        selectCurrentRole === 'moderator' ? 
+                        selectUserDetails === 'moderator' ? 
                         (<select name="orderStatus" value={OrderStatus} onChange={handleChange}>
                             <option value="Pending">Pending</option>
                             <option value="Completed">Completed</option>
                         </select>) : null
                     }
                     {
-                        selectCurrentRole === 'user' ?  
+                        selectUserDetails === 'user' ?  
                         (<div className={`${styles.status} ${status === 'Completed' ? styles.completed : ''}`}>{status}</div>) : null
                     } 
                 </div>
@@ -125,7 +124,7 @@ const OrderRow = ({ id, createdAt, products, status, SetOrderStatusAsync, AdminD
 
 const mapStateToProps = createStructuredSelector({
     selectIsFetching: selectIsFetching,
-    selectCurrentRole: selectCurrentRole
+    selectUserDetails: selectUserDetails
 })
 
 const mapDispatchToProps = dispatch => ({

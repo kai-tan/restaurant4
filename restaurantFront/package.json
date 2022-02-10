@@ -17,7 +17,7 @@
     "google-auth-library": "^5.4.1",
     "google-map-react": "^1.1.5",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react": "^16.9.0",
     "react-background-slider": "^1.2.0",
     "react-bootstrap": "^1.0.0-beta.14",
